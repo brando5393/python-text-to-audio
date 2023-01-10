@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "python-text-to-audo"
+version = "0.1.0"
+description = ""
+authors = ["Replit user <<>>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+PyQt5 = "^5.15.7"
+PyPDF2 = "^3.0.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

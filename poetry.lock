@@ -1,0 +1,65 @@
+[[package]]
+name = "pypdf2"
+version = "3.0.1"
+description = "A pure-python PDF library capable of splitting, merging, cropping, and transforming PDF files"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+typing_extensions = {version = ">=3.10.0.0", markers = "python_version < \"3.10\""}
+
+[package.extras]
+crypto = ["pycryptodome"]
+dev = ["black", "pip-tools", "pre-commit (<2.18.0)", "pytest-cov", "flit", "wheel"]
+docs = ["sphinx", "sphinx-rtd-theme", "myst-parser"]
+full = ["pycryptodome", "pillow"]
+image = ["pillow"]
+
+[[package]]
+name = "pyqt5"
+version = "5.15.7"
+description = "Python bindings for the Qt cross platform application toolkit"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+PyQt5-Qt5 = ">=5.15.0"
+PyQt5-sip = ">=12.11,<13"
+
+[[package]]
+name = "pyqt5-qt5"
+version = "5.15.2"
+description = "The subset of a Qt installation needed by PyQt5."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "pyqt5-sip"
+version = "12.11.0"
+description = "The sip module support for PyQt5"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
+name = "typing-extensions"
+version = "4.4.0"
+description = "Backported and Experimental Type Hints for Python 3.7+"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "^3.8"
+content-hash = "198919ac5bdf6ce3ae417d35357ac4a8c683e7947bdb0403a75c8342aaaf1fbd"
+
+[metadata.files]
+pypdf2 = []
+pyqt5 = []
+pyqt5-qt5 = []
+pyqt5-sip = []
+typing-extensions = []
