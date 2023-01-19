@@ -33,4 +33,4 @@ class FileManager:
 
   def set_download_directory(self):
     """Specify a new directory where audio files will be placed after conversion."""
-    self.download_directory = filedialog.askdirectory
+    self.download_directory = filedialog.askdirectory()
