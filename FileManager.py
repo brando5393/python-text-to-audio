@@ -25,12 +25,19 @@ class FileManager:
 
   def remove_file(self, file):
     """Remove a single file from the file list."""
-    pass
+    file_index = self.file_list.index(file)
+    if file_index:
+      self.file_list.pop(file_index)
+    else:
+      #log error to screen
+      pass
 
   def clear_files(self):
     """Clear all files currently selected for conversion."""
     self.file_list.clear()
+    #log to screen
 
   def set_download_directory(self):
     """Specify a new directory where audio files will be placed after conversion."""
     self.download_directory = filedialog.askdirectory()
+    #update screen
