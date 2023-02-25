@@ -1,100 +1,94 @@
 import tkinter as tk
 import FileManager
-
-explorer = FileManager.FileManager()
-
+from tkinter import messagebox
 
 def confirm_quit():
-  """Exits the app cleanly after yes/no prompt"""
-  answer = tk.messagebox.askyesno(title="Close Application",
-                                  message="Are you sure you want to quit?")
-  if answer == True:
-    APP.destroy()
-  else:
-    pass
-
+    """Exits the app cleanly after yes/no prompt"""
+    answer = messagebox.askyesno(title="Close Application",
+                                    message="Are you sure you want to quit?")
+    if answer == True:
+        app.destroy()
+    else:
+        pass
 
 #create new instance of app
-APP = tk.Tk()
-
+app = tk.Tk()
 #create the main application window
-APP.geometry("960x540")
-
+app.geometry("951x769")
 #prevent window resizing
-APP.resizable(0, 0)
-
+app.resizable(0, 0)
 #set window title
-APP.title("Text to Audio Converter")
-
-#create label for app header
-app_header = tk.Label(APP, text="Text to Audio Converter")
-
+app.title("Text to Audio Converter")
+# create frames
+controls = tk.Frame(app)
+main_display_area = tk.Frame(app)
+directory_display = tk.Frame(app)
+sub_display = tk.Frame(app)
+# create label for app header
+app_header = tk.Label(app, text="Text to Audio Converter")
+#create file list display
+file_list_display = tk.Text(main_display_area, height=15, width=15)
+# create log area
+app_log_display = tk.Text(sub_display, height=10, width=20)
+#create download directory label
+download_directory_label = tk.Label(directory_display)
+#create new instance of FileManager
+explorer = FileManager.FileManager(file_list_display, app_log_display ,download_directory_label)
+#create convert button
+convert_btn = tk.Button(main_display_area, text="Convert to Audio")
+#create add files button
+add_files_btn= tk.Button(controls, text="Add Files", command=explorer.add_files)
+#create reomve file button
+del_file_btn = tk.Button(controls, text="Remove File", command=explorer.remove_file)
+#create remove all files button
+del_all_btn = tk.Button(controls,
+                        text="Remove All Files",
+                        command=explorer.clear_files)
+#create change dir button
+change_directory_button = tk.Button(directory_display, text="Change", command=explorer.set_download_directory)
+# create exit button
+exit_btn = tk.Button(app, text="Exit", command= confirm_quit)
+# create about button
+about_btn = tk.Button(app, text="About")
 #place header in window
 app_header.grid(row=0, column=0)
 
-#create add files button
-add_files_btn = tk.Button(APP, text="Add Files", command=explorer.add_files)
+main_display_area.grid(row=1,column=0)
 
-#place add files button
-add_files_btn.grid(row=1, column=1)
+controls.grid(row=1, column=1)
 
-#create reomve file button
-del_file_btn = tk.Button(APP, text="Remove File", command=explorer.remove_file)
+directory_display.grid(row=2, column=0)
 
-#place remove file button
-del_file_btn.grid(row=2, column=1)
-
-#create remove all files button
-del_all_btn = tk.Button(APP,
-                        text="Remove All Files",
-                        command=explorer.clear_files)
-
-#place remove all files button
-del_all_btn.grid(row=3, column=1)
-
-#create file list display
-file_list_display = tk.Text(APP, height=15, width=15)
+sub_display.grid(row=3,column=0)
 
 #place file list display
 file_list_display.grid(row=1, column=0)
 
-#create convert button
-convert_btn = tk.Button(APP, text="Convert to Audio")
-
 #place convert btn in window
 convert_btn.grid(row=2, column=0)
 
-#create download directory label
-download_directory_label = tk.Label(
-  APP, text=f"Current Download Directory: {explorer.download_directory}")
+#place add files button
+add_files_btn.grid(row=0, column=0)
+
+#place remove file button
+del_file_btn.grid(row=2, column=0)
+
+#place remove all files button
+del_all_btn.grid(row=3, column=0)
 
 #place download_directory_label
-download_directory_label.grid(row=5, column=0)
-
-#create change dir button
-change_directory_button = tk.Button(APP,
-                                    text="Change",
-                                    command=explorer.set_download_directory)
+download_directory_label.grid(row=4, column=0)
 
 #place change_directory_button
-change_directory_button.grid(row=5, column=1)
-
-# create about button
-about_btn = tk.Button(APP, text="About")
-
-# place about button
-about_btn.grid(row=4, column=0)
-
-# create exit button
-exit_btn = tk.Button(APP, text="Exit", command=confirm_quit)
-
-# place exit button
-exit_btn.grid(row=5, column=0)
-
-# create log area
-app_log_display = tk.Text(APP, height=10, width=20)
+change_directory_button.grid(row=4, column=1)
 
 # place log area
+app_log_display.grid(row=0,column=0)
+
+# place about button
+
+# place exit button
+exit_btn.grid(row=4, column=2)
 
 #run application
-APP.mainloop()
+app.mainloop()
