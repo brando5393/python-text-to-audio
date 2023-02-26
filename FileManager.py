@@ -20,26 +20,30 @@ class FileManager:
     """Add one or more files to the file list for conversion."""
     files_to_convert = filedialog.askopenfilenames()
     if files_to_convert:
-      for file in files_to_convert:
-        self.file_list.append(file)
-      # display selected files in gui
-      # log file selection complete
+        for file in files_to_convert:
+            self.file_list.append(file)
+            filename = os.path.basename(file)
+            self.file_list_display.insert('end', filename)
+            index = self.file_list_display.size() - 1
+            self.file_list_display.itemconfigure(index, foreground='blue')
     else:
-      # log files unable to be added
-      # display error dialog
-      pass
+        # display error dialog
+        pass
 
   def remove_file(self):
     """Remove a single file from the file list."""
-    try:
-      self.file_list.remove()
-    except ValueError:
-      # log error to screen
-      pass
+    selected_item = self.file_list_display.curselection()
+    if selected_item:
+        item_index = int(selected_item[0])
+        self.file_list.pop(item_index)
+        self.file_list_display.delete(item_index)
+    else:
+        pass
 
   def clear_files(self):
     """Clear all files currently selected for conversion."""
     self.file_list.clear()
+    self.file_list_display.delete(0, 'end')
     # log to screen
 
   def set_download_directory(self):

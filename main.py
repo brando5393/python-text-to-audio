@@ -27,7 +27,7 @@ sub_display = tk.Frame(app)
 # create label for app header
 app_header = tk.Label(app, text="Text to Audio Converter")
 #create file list display
-file_list_display = tk.Text(main_display_area, height=15, width=15)
+file_list_display = tk.Listbox(main_display_area, height=15, width=15)
 # create log area
 app_log_display = tk.Text(sub_display, height=10, width=20)
 #create download directory label
