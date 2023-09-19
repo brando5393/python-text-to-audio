@@ -1,5 +1,6 @@
 { pkgs }: {
   deps = [
+    pkgs.sudo
     pkgs.gh
     pkgs.python38Full
   ];
