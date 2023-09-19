@@ -1,8 +1,8 @@
 import tkinter as tk
 import FileManager
 import Converter
+import LogManager
 from tkinter import messagebox
-
 
 def confirm_quit():
   """Exits the app cleanly after yes/no prompt"""
@@ -101,6 +101,10 @@ app_log_display.grid(row=0, column=0)
 
 # place exit button
 exit_btn.grid(row=4, column=2)
+
+#logging testing
+logger = LogManager.LogManager(app_log_display)
+logger.add_event("info","log manager working", "200")
 
 #run application
 app.mainloop()

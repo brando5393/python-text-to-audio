@@ -1,7 +1,9 @@
 import pyttsx3
 import PyPDF2
+import LogManager
 
 class Converter:
+  
 
     def __init__(self):
         pass
@@ -41,5 +43,4 @@ class Converter:
                 # Save the cleaned text as an audio file in MP3 format
                 speaker.save_to_file(clean_text, output_file)
             else:
-                # If the file has an unsupported extension, skip it
-                pass
+                logger.add_event("alert","The specified file is not supported and could not be converted.",f"{file}")
