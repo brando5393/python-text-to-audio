@@ -40,9 +40,6 @@ class Converter:
                 
                 # Save the cleaned text as an audio file in MP3 format
                 speaker.save_to_file(clean_text, output_file)
-                
-                # Play the audio
-                speaker.runAndWait()
             else:
                 # If the file has an unsupported extension, skip it
                 pass
