@@ -1,18 +1,15 @@
 import tkinter as tk
+from tkinter import messagebox
 import FileManager
 import Converter
-import LogManager
-from tkinter import messagebox
+import LogManager as logger
 
 def confirm_quit():
-  """Exits the app cleanly after yes/no prompt"""
-  answer = messagebox.askyesno(title="Close Application",
-                               message="Are you sure you want to quit?")
-  if answer == True:
-    app.destroy()
-  else:
-    pass
-
+    """Exits the app cleanly after yes/no prompt"""
+    answer = messagebox.askyesno(title="Close Application",
+                                 message="Are you sure you want to quit?")
+    if answer:
+        app.destroy()
 
 #create new instance of app
 app = tk.Tk()
@@ -22,46 +19,53 @@ app.geometry("800x600")
 app.resizable(0, 0)
 #set window title
 app.title("Text to Audio Converter")
-# create frames
+
+#create frames
 controls = tk.Frame(app)
 main_display_area = tk.Frame(app)
 directory_display = tk.Frame(app)
 sub_display = tk.Frame(app)
+
 # create label for app header
 app_header = tk.Label(app, text="Text to Audio Converter")
+
 #create file list display
 file_list_display = tk.Listbox(main_display_area, height=15, width=25)
+
 # create log area
 app_log_display = tk.Listbox(sub_display, height=15, width=25)
+
 #create download directory label
 download_directory_label = tk.Label(directory_display)
+
 #create new instance of FileManager
 explorer = FileManager.FileManager(file_list_display, app_log_display,
                                    download_directory_label)
+
 #create a new instance of Converter
-converter=Converter.Converter()
+converter = Converter.Converter()
+
 #create convert button
-convert_btn = tk.Button(main_display_area, text="Convert to Audio", command=converter.convert_to_audio(explorer.file_list))
+convert_btn = tk.Button(main_display_area, text="Convert to Audio", command=lambda: converter.convert_to_audio(explorer.file_list))
+
 #create add files button
-add_files_btn = tk.Button(controls,
-                          text="Add Files",
-                          command=explorer.add_files)
-#create reomve file button
-del_file_btn = tk.Button(controls,
-                         text="Remove File",
-                         command=explorer.remove_file)
+add_files_btn = tk.Button(controls, text="Add Files", command=explorer.add_files)
+
+#create remove file button
+del_file_btn = tk.Button(controls, text="Remove File", command=explorer.remove_file)
+
 #create remove all files button
-del_all_btn = tk.Button(controls,
-                        text="Remove All Files",
-                        command=explorer.clear_files)
+del_all_btn = tk.Button(controls, text="Remove All Files", command=explorer.clear_files)
+
 #create change dir button
-change_directory_button = tk.Button(directory_display,
-                                    text="Change",
-                                    command=explorer.set_download_directory)
+change_directory_button = tk.Button(directory_display, text="Change", command=explorer.set_download_directory)
+
 # create exit button
 exit_btn = tk.Button(app, text="Exit", command=confirm_quit)
+
 # create about button
 about_btn = tk.Button(app, text="About")
+
 #place header in window
 app_header.grid(row=0, column=0)
 
@@ -97,14 +101,12 @@ change_directory_button.grid(row=4, column=1)
 # place log area
 app_log_display.grid(row=0, column=0)
 
-# place about button
-
 # place exit button
 exit_btn.grid(row=4, column=2)
 
 #logging testing
-logger = LogManager.LogManager(app_log_display)
-logger.add_event("info","log manager working", "200")
+log_manager = logger.LogManager(app_log_display)
+log_manager.add_event("info", "log manager working", "200")
 
 #run application
 app.mainloop()

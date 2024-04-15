@@ -1,62 +1,47 @@
-import os
-from tkinter import filedialog
-import LogManager
+import pyttsx3
+import PyPDF2
+import LogManager as logger
 
+class Converter:
+    def __init__(self):
+        pass
 
-class FileManager:
-  """This class handles all interactions with the users file system"""
+    def convert_to_audio(self, files):
+        """Checks if the specified file(s) are in text or PDF format and converts them to an audio file"""
 
-  def __init__(self, file_list_display, app_log_display,
-               download_directory_label):
-    self.file_list = []  # contains all files that are selected for conversion
-    self.download_directory = os.path.expanduser(
-      "~")  # get the user's home directory
-    self.download_directory_label = download_directory_label  # reference to the label
-    self.file_list_display = file_list_display  # reference to the label
-    self.app_log_display = app_log_display
-    self.logger = LogManager.LogManager(self.app_log_display)
-    self.download_directory_label.config(
-      text=f"Current Download Directory: {self.download_directory}")
+        # Initialize the text-to-speech engine
+        speaker = pyttsx3.init()
 
-  def add_files(self):
-    """Add one or more files to the file list for conversion."""
-    files_to_convert = filedialog.askopenfilenames()
-    if files_to_convert:
-      for file in files_to_convert:
-        self.file_list.append(file)
-        filename = os.path.basename(file)
-        self.file_list_display.insert('end', filename)
-        index = self.file_list_display.size() - 1
-        self.file_list_display.itemconfigure(index, foreground='blue')
-    else:
-      pass
-      # display error dialog
-      # self.logger.add_event("WARN","Unable to add files to conversion list", err)
+        # Iterate through the list of files
+        for file in files:
+            try:
+                # Check if the file has a ".txt" or ".pdf" extension
+                if file.endswith((".txt", ".pdf")):
+                    # If it's a text file
+                    if file.endswith(".txt"):
+                        # Read the content of the text file
+                        with open(file, "r") as txt_file:
+                            text = txt_file.read()
+                    # If it's a PDF file
+                    elif file.endswith(".pdf"):
+                        # Initialize a PDF reader
+                        pdfreader = PyPDF2.PdfFileReader(open(file, 'rb'))
+                        text = ""
+                        # Extract text from each page in the PDF
+                        for page_num in range(pdfreader.numPages):
+                            page = pdfreader.getPage(page_num)
+                            text += page.extractText()
 
-  def remove_file(self):
-    """Remove a single file from the file list."""
-    selected_item = self.file_list_display.curselection()
-    if selected_item:
-      item_index = int(selected_item[0])
-      self.file_list.pop(item_index)
-      self.file_list_display.delete(item_index)
-    else:
-      pass
+                    # Clean the text by removing extra whitespace and line breaks
+                    clean_text = text.strip().replace('\n', ' ')
 
-  def clear_files(self):
-    """Clear all files currently selected for conversion."""
-    self.file_list.clear()
-    self.file_list_display.delete(0, 'end')
-    # log to screen
+                    # Generate an output filename based on the input filename,
+                    # replacing the ".txt" or ".pdf" extension with ".mp3"
+                    output_file = file.replace(".txt", ".mp3").replace(".pdf", ".mp3")
 
-  def set_download_directory(self):
-    """Specify a new directory where audio files will be placed after conversion."""
-    new_download_directory = filedialog.askdirectory()
-    if new_download_directory:
-      self.download_directory = new_download_directory
-      # update the label with the new directory
-      self.download_directory_label.config(
-        text=f"Current Download Directory: {self.download_directory}")
-    else:
-      # log error to screen
-      pass
+                    # Save the cleaned text as an audio file in MP3 format
+                    speaker.save_to_file(clean_text, output_file)
+                else:
+                    logger.add_event("alert", "The specified file is not supported and could not be converted.", f"{file}")
+            except Exception as e:
+                logger.add_event("error", "Failed to convert file to audio", str(e))
