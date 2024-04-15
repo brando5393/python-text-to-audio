@@ -1,7 +1,6 @@
 import os
 from tkinter import filedialog
-import LogManager
-
+import LogManager as logger
 
 class FileManager:
     """This class handles all interactions with the user's file system."""
