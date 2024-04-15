@@ -19,8 +19,8 @@ class Converter:
                 if file.endswith((".txt", ".pdf")):
                     # If it's a text file
                     if file.endswith(".txt"):
-                        # Read the content of the text file
-                        with open(file, "r") as txt_file:
+                        # Read the content of the text file with specified encoding
+                        with open(file, "r", encoding="utf-8") as txt_file:
                             text = txt_file.read()
                     # If it's a PDF file
                     elif file.endswith(".pdf"):
@@ -44,4 +44,5 @@ class Converter:
                 else:
                     logger.add_event("alert", "The specified file is not supported and could not be converted.", f"{file}")
             except Exception as e:
+                # Log the error and continue with the next file
                 logger.add_event("error", "Failed to convert file to audio", str(e))
