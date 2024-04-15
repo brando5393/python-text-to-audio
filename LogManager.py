@@ -29,4 +29,3 @@ class LogManager:
                 log_file.write(f"[{datetime.datetime.now()}]: {status.upper()} | {msg.strip()} | {err.strip()}\n")
         except Exception as e:
             self._log_to_display(f"ERROR: Failed to log event - {e}")
-
