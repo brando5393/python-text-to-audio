@@ -1,8 +1,11 @@
 { pkgs }: {
   deps = [
-    pkgs.sudo
+    pkgs.espeak-ng
     pkgs.gh
     pkgs.python38Full
+    pkgs.espeak
+    # pkgs.libespeak-dev
+    pkgs.pyttsx3
   ];
   env = {
     PYTHON_LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [

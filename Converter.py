@@ -1,6 +1,6 @@
 import pyttsx3
 import PyPDF2
-import LogManager
+import LogManager as logger
 
 class Converter:
   
