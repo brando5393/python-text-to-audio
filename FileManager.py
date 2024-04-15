@@ -1,6 +1,7 @@
 import os
 from tkinter import filedialog
-import LogManager as logger
+import LogManager as logger  # Add this import statement
+
 
 class FileManager:
     """This class handles all interactions with the user's file system."""
@@ -11,7 +12,7 @@ class FileManager:
         self.download_directory_label = download_directory_label  # Reference to the label
         self.file_list_display = file_list_display  # Reference to the listbox
         self.app_log_display = app_log_display
-        self.logger = LogManager.LogManager(self.app_log_display)
+        self.logger = logger.LogManager(self.app_log_display)  # Use logger instead of LogManager
         self.download_directory_label.config(
             text=f"Current Download Directory: {self.download_directory}")
 
@@ -68,4 +69,3 @@ class FileManager:
                 self.logger.add_event("warn", "No directory selected for download", "")
         except Exception as e:
             self.logger.add_event("error", "Failed to set download directory", str(e))
-
