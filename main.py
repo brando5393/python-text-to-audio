@@ -4,154 +4,208 @@ import FileManager
 import Converter
 import LogManager as logger
 
-# Define a function to confirm quitting the application
 def confirm_quit():
+    """Exits the app cleanly after yes/no prompt"""
     try:
-        # Display a yes/no prompt to confirm quitting
-        answer = messagebox.askyesno(title="Close Application", message="Are you sure you want to quit?")
+        answer = messagebox.askyesno(title="Close Application",
+                                     message="Are you sure you want to quit?")
         if answer:
-            app.destroy()  # If yes, destroy the application window
+            app.destroy()
     except Exception as e:
-        # Log any errors that occur during the process
-        logger.add_event("error", "Failed to close application", str(e))
+        log_manager.add_event("error", "Failed to close application", str(e))
 
-# Create a new instance of the Tkinter application
+# Create a new instance of the app
 app = tk.Tk()
 
+# Create the main application window
 try:
-    # Set the size and title of the main application window
     app.geometry("800x600")
-    app.resizable(0, 0)  # Prevent window resizing
+    # Prevent window resizing
+    app.resizable(0, 0)
+    # Set window title
     app.title("Text to Audio Converter")
 except Exception as e:
-    # Log any errors that occur during window setup
-    logger.add_event("error", "Failed to set up main window", str(e))
+    log_manager.add_event("error", "Failed to set up main window", str(e))
 
-# Create frames for organizing the layout
+# Create frames
 try:
     controls = tk.Frame(app)
     main_display_area = tk.Frame(app)
     directory_display = tk.Frame(app)
     sub_display = tk.Frame(app)
 except Exception as e:
-    # Log any errors that occur during frame creation
-    logger.add_event("error", "Failed to create frames", str(e))
+    log_manager.add_event("error", "Failed to create frames", str(e))
 
-# Create a label for the application header
+# Create label for app header
 try:
     app_header = tk.Label(app, text="Text to Audio Converter")
 except Exception as e:
-    # Log any errors that occur during label creation
-    logger.add_event("error", "Failed to create header label", str(e))
+    log_manager.add_event("error", "Failed to create header label", str(e))
 
-# Create a listbox for displaying the file list
+# Create file list display
 try:
     file_list_display = tk.Listbox(main_display_area, height=15, width=25)
 except Exception as e:
-    # Log any errors that occur during listbox creation
-    logger.add_event("error", "Failed to create file list display", str(e))
+    log_manager.add_event("error", "Failed to create file list display", str(e))
 
-# Create a listbox for displaying log messages
+# Create log area
 try:
     app_log_display = tk.Listbox(sub_display, height=15, width=25)
 except Exception as e:
-    # Log any errors that occur during listbox creation
-    logger.add_event("error", "Failed to create log area", str(e))
+    log_manager.add_event("error", "Failed to create log area", str(e))
 
-# Create a label for displaying the download directory
+# Create download directory label
 try:
     download_directory_label = tk.Label(directory_display)
 except Exception as e:
-    # Log any errors that occur during label creation
-    logger.add_event("error", "Failed to create download directory label", str(e))
+    log_manager.add_event("error", "Failed to create download directory label", str(e))
 
-# Initialize the FileManager instance
+# Create new instance of LogManager
+try:
+    log_manager = logger.LogManager(app_log_display)
+except Exception as e:
+    log_manager.add_event("error", "Failed to initialize LogManager", str(e))
+
+# Create a new instance of FileManager
 try:
     explorer = FileManager.FileManager(file_list_display, app_log_display, download_directory_label)
 except Exception as e:
-    # Log any errors that occur during FileManager initialization
-    logger.add_event("error", "Failed to initialize FileManager", str(e))
+    log_manager.add_event("error", "Failed to initialize FileManager", str(e))
 
-# Initialize the Converter instance
+# Create a new instance of Converter
 try:
-    converter = Converter.Converter()
+    converter = Converter.Converter(app_log_display)
 except Exception as e:
-    # Log any errors that occur during Converter initialization
-    logger.add_event("error", "Failed to initialize Converter", str(e))
+    log_manager.add_event("error", "Failed to initialize Converter", str(e))
 
-# Create a button for converting files to audio
+# Create convert button
 try:
     convert_btn = tk.Button(main_display_area, text="Convert to Audio", command=lambda: converter.convert_to_audio(explorer.file_list))
 except Exception as e:
-    # Log any errors that occur during button creation
-    logger.add_event("error", "Failed to create convert button", str(e))
+    log_manager.add_event("error", "Failed to create convert button", str(e))
 
-# Create a button for adding files
+# Create add files button
 try:
     add_files_btn = tk.Button(controls, text="Add Files", command=explorer.add_files)
 except Exception as e:
-    # Log any errors that occur during button creation
-    logger.add_event("error", "Failed to create add files button", str(e))
+    log_manager.add_event("error", "Failed to create add files button", str(e))
 
-# Create a button for removing files
+# Create remove file button
 try:
     del_file_btn = tk.Button(controls, text="Remove File", command=explorer.remove_file)
 except Exception as e:
-    # Log any errors that occur during button creation
-    logger.add_event("error", "Failed to create remove file button", str(e))
+    log_manager.add_event("error", "Failed to create remove file button", str(e))
 
-# Create a button for removing all files
+# Create remove all files button
 try:
     del_all_btn = tk.Button(controls, text="Remove All Files", command=explorer.clear_files)
 except Exception as e:
-    # Log any errors that occur during button creation
-    logger.add_event("error", "Failed to create remove all files button", str(e))
+    log_manager.add_event("error", "Failed to create remove all files button", str(e))
 
-# Create a button for changing the download directory
+# Create change dir button
 try:
     change_directory_button = tk.Button(directory_display, text="Change", command=explorer.set_download_directory)
 except Exception as e:
-    # Log any errors that occur during button creation
-    logger.add_event("error", "Failed to create change directory button", str(e))
+    log_manager.add_event("error", "Failed to create change directory button", str(e))
 
-# Create a button for exiting the application
+# Create exit button
 try:
     exit_btn = tk.Button(app, text="Exit", command=confirm_quit)
 except Exception as e:
-    # Log any errors that occur during button creation
-    logger.add_event("error", "Failed to create exit button", str(e))
+    log_manager.add_event("error", "Failed to create exit button", str(e))
 
-# Place the application components in the layout
+# Place header in window
 try:
-    app_header.grid(row=0, column=0)  # Place the header label
-    main_display_area.grid(row=1, column=0)  # Place the main display area
-    controls.grid(row=1, column=1)  # Place the control buttons
-    directory_display.grid(row=2, column=0)  # Place the download directory display
-    sub_display.grid(row=3, column=0)  # Place the log display
-    file_list_display.grid(row=1, column=0)  # Place the file list display
-    convert_btn.grid(row=2, column=0)  # Place the convert button
-    add_files_btn.grid(row=0, column=0)  # Place the add files button
-    del_file_btn.grid(row=2, column=0)  # Place the remove file button
-    del_all_btn.grid(row=3, column=0)  # Place the remove all files button
-    download_directory_label.grid(row=4, column=0)  # Place the download directory label
-    change_directory_button.grid(row=4, column=1)  # Place the change directory button
-    app_log_display.grid(row=0, column=0)  # Place the log area
-    exit_btn.grid(row=4, column=2)  # Place the exit button
+    app_header.grid(row=0, column=0)
 except Exception as e:
-    # Log any errors that occur during layout placement
-    logger.add_event("error", "Failed to place components in window", str(e))
+    log_manager.add_event("error", "Failed to place header in window", str(e))
 
-# Test LogManager functionality by logging an event
+# Place main display area in window
 try:
-    log_manager = logger.LogManager(app_log_display)
-    log_manager.add_event("info", "Log manager working", "200")
+    main_display_area.grid(row=1, column=0)
 except Exception as e:
-    # Log any errors that occur during LogManager initialization
-    logger.add_event("error", "Failed to initialize LogManager", str(e))
+    log_manager.add_event("error", "Failed to place main display area in window", str(e))
 
-# Run the application
+# Place controls in window
+try:
+    controls.grid(row=1, column=1)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place controls in window", str(e))
+
+# Place directory display in window
+try:
+    directory_display.grid(row=2, column=0)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place directory display in window", str(e))
+
+# Place sub display in window
+try:
+    sub_display.grid(row=3, column=0)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place sub display in window", str(e))
+
+# Place file list display in window
+try:
+    file_list_display.grid(row=1, column=0)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place file list display in window", str(e))
+
+# Place convert button in window
+try:
+    convert_btn.grid(row=2, column=0)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place convert button in window", str(e))
+
+# Place add files button in window
+try:
+    add_files_btn.grid(row=0, column=0)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place add files button in window", str(e))
+
+# Place remove file button in window
+try:
+    del_file_btn.grid(row=2, column=0)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place remove file button in window", str(e))
+
+# Place remove all files button in window
+try:
+    del_all_btn.grid(row=3, column=0)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place remove all files button in window", str(e))
+
+# Place download directory label in window
+try:
+    download_directory_label.grid(row=4, column=0)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place download directory label in window", str(e))
+
+# Place change directory button in window
+try:
+    change_directory_button.grid(row=4, column=1)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place change directory button in window", str(e))
+
+# Place log area in window
+try:
+    app_log_display.grid(row=0, column=0)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place log area in window", str(e))
+
+# Place exit button in window
+try:
+    exit_btn.grid(row=4, column=2)
+except Exception as e:
+    log_manager.add_event("error", "Failed to place exit button in window", str(e))
+
+# Logging testing
+try:
+    logger.add_event("info", "Application started successfully", "")
+except Exception as e:
+    log_manager.add_event("error", "Failed to log application start", str(e))
+
+# Run the main loop
 try:
     app.mainloop()
 except Exception as e:
-    # Log any errors that occur during application execution
-    logger.add_event("error", "Failed to run application", str(e))
+    log_manager.add_event("error", "Failed to start main loop", str(e))

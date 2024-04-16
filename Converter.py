@@ -4,9 +4,9 @@ import os
 import LogManager as logger
 
 class Converter:
-    def __init__(self):
+    def __init__(self, app_log_display):
         # Initialize the logger attribute
-        self.logger = logger.LogManager()
+        self.logger = logger.LogManager(app_log_display)
 
     def convert_to_audio(self, files):
         """Checks if the specified file(s) are in text or PDF format and converts them to an audio file"""
