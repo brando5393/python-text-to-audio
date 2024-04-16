@@ -43,11 +43,12 @@ class Converter:
                     # Save the cleaned text as an audio file in MP3 format
                     speaker.save_to_file(clean_text, output_file)
 
-                    # Log successful conversion
-                    logger.add_event("info", "File converted successfully", f"Output file: {output_file}")
+                    # Log successful conversion using self.logger
+                    self.logger.add_event("info", "File converted successfully", f"Output file: {output_file}")
                 else:
-                    logger.add_event("alert", "The specified file is not supported and could not be converted.", f"{file}")
+                    # Log unsupported file type
+                    self.logger.add_event("alert", "The specified file is not supported and could not be converted.", f"{file}")
             except Exception as e:
                 # Log the error and continue with the next file
                 error_message = f"Failed to convert file '{file}' to audio: {str(e)}"
-                logger.add_event("error", error_message)
+                self.logger.add_event("error", error_message)
