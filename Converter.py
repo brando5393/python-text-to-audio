@@ -44,6 +44,9 @@ class Converter:
                     # Save the cleaned text as an audio file in MP3 format
                     speaker.save_to_file(clean_text, output_file)
 
+                    # Run the speech synthesis engine to convert text to audio
+                    speaker.runAndWait()
+
                     # Log successful conversion using self.logger
                     self.logger.add_event("info", "File converted successfully", f"Output file: {output_file}")
                 else:

@@ -74,7 +74,7 @@ except Exception as e:
 
 # Create a new instance of Converter
 try:
-    converter = Converter.Converter()
+    converter = Converter.Converter(app_log_display)
 except Exception as e:
     logger.add_event("error", "Failed to initialize Converter", str(e))
 
