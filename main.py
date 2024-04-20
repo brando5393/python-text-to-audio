@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 import FileManager
 import Converter
-import LogManager as logger
+from LogManager import LogManager
 
 def confirm_quit():
     """Exits the app cleanly after yes/no prompt"""
@@ -62,7 +62,7 @@ except Exception as e:
 
 # Create new instance of LogManager
 try:
-    log_manager = logger.LogManager(app_log_display)
+    logger = LogManager(app_log_display)
 except Exception as e:
     logger.add_event("error", "Failed to initialize LogManager", str(e))
 
