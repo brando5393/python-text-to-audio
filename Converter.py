@@ -1,6 +1,5 @@
 import pyttsx3
 import PyPDF2
-import os
 import LogManager as logger
 
 class Converter:
@@ -26,13 +25,12 @@ class Converter:
                             text = txt_file.read()
                     # If it's a PDF file
                     elif file.endswith(".pdf"):
-                        # Initialize a PDF reader
-                        pdfreader = PyPDF2.PdfFileReader(open(file, 'rb'))
-                        text = ""
                         # Extract text from each page in the PDF
-                        for page_num in range(pdfreader.numPages):
-                            page = pdfreader.getPage(page_num)
-                            text += page.extractText()
+                        text = ""
+                        with open(file, 'rb') as pdf_file:
+                            pdfreader = PyPDF2.PdfReader(pdf_file)
+                            for page in pdfreader.pages:
+                                text += page.extract_text()
 
                     # Clean the text by removing extra whitespace and line breaks
                     clean_text = text.strip().replace('\n', ' ')

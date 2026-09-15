@@ -36,8 +36,27 @@ git clone https://github.com/brando5393/python-text-to-audio.git
 python main.py
 ```
 
+## Usage
+1. Launch the app with `python main.py`.
+2. Click **Add Files** and choose one or more `.txt` or `.pdf` files.
+3. Optionally click **Change Download Folder** to pick where audio output goes.
+4. Click **Convert to Audio** to generate an `.mp3` for each selected file, saved next to the source file.
+5. Check the **Activity Log** panel (and `~/texttoaudiopy.log`) for conversion status and errors.
+
 ## For Developers
-- To set up a development environment, follow the installation instructions and ensure you have the necessary dependencies installed.
+- To set up a development environment with Poetry:
+  ```
+  poetry install
+  poetry run python main.py
+  ```
 - Contributions are welcome! Please fork this repository, make your changes, and submit a pull request.
 - For any major changes, please open an issue first to discuss the proposed changes.
+
+## Roadmap / Next Steps
+- **Threaded conversion**: `convert_to_audio` currently blocks the UI thread while pyttsx3 renders audio; move it to a background thread (or `after()` polling) so the window stays responsive on large files.
+- **Progress feedback**: add a progress bar or per-file status in the file list while a batch conversion runs.
+- **Configurable voice/rate**: expose pyttsx3's voice and speech-rate options in the UI instead of hardcoding defaults.
+- **Tests**: there's no automated test coverage yet; a few unit tests around `Converter` and `FileManager` (mocking `pyttsx3`/file dialogs) would catch regressions like the PyPDF2 API break that was fixed here.
+- **Migrate PyPDF2 → pypdf**: PyPDF2 is now archived upstream in favor of `pypdf`; consider switching before PyPDF2 stops receiving updates.
+- **Repo hygiene**: enable Issues on the GitHub repo, turn on "delete branch on merge", and add a license if you want to make reuse terms explicit.
 

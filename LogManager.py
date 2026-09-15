@@ -22,7 +22,7 @@ class LogManager:
         """Log message to application display"""
         self.app_log_display.insert("end", f"[{datetime.datetime.now()}]: {message}\n")
 
-    def add_event(self, status, msg, err):
+    def add_event(self, status, msg, err=""):
         """Add an event to the application log file"""
         try:
             with open(self.log_file_location, "a") as log_file:
